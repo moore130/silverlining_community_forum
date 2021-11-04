@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <title>Django To Do Application</title>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,100,500);
+        
+        h2 {
+            font-family: roboto;
+            text-align: center;
+            line-height: 1em;
+            font-weight: 300;
+            letter-spacing: 0px;
+            letter-spacing: 0.02rem;
+            font-size: 350%;
+        }
+        
+        body {
+            margin: 0;
+            min-width:250px;
+            font-family: roboto;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul li {
+            cursor: pointer;
+            position: relative;
+            padding: 12px 8px 12px 40px;
+            list-style-type: none;
+            background: #eee;
+            font-size: 18px;
+            transition:0.2s;
+
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        ul li:nth-child(odd) {
+            background: #f9f9f9;
+        }
+
+        ul li.checked {
+            background: #888;
+            color: #fff;
+            text-decoration: line-through;
+        }
+
+        ul li.checked::before {
+            content: '';
+            position: absolute;
+            border-color: #fff;
+            border-style:solid;
+            border-width: 0 2px 2px 0;
+            top: 10px;
+            left: 16px;
+            transform: rotate(45deg);
+            height: 15px;
+            width: 7px;
+        }
+
+        .close {
+            position: absolute;
+            right: 0;
+            top: 0;
+            padding: 12px 16px 12px 16px;
+        }
+
+        .close:hover {
+            background-color: #bbb;
+            color: white;
+        }
+
+        .header {
+            background: -webkit-linear-gradient(#8CA6DB, #B993D6);
+            background: linear-gradient(#8CA6DB, #B993D6);
+            opacity: 0.95;
+            filter: alpha(opacity=85);
+            padding: 30px 40px;
+            color: white;
+            text-align: center;
+        }
+
+        .header:after {
+            content: '';
+            display: table;
+            clear: both;
+            
+            
+        }
+        ::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.65);
+  text-align:center;
+}
+
+::-webkit-input-placeholder .input-line:focus +::input-placeholder {
+  color: #fff;
+  
+}
+
+        input {
+            background: none;
+  margin-bottom: 10px;
+  line-height: 2.5em;
+  color: rgba(255, 255, 255, 0.65);
+  font-family: roboto;
+  font-weight: 300;
+  letter-spacing: 0px;
+  letter-spacing: 0.02rem;
+  font-size: 19px;
+  font-size: 1.2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.65);
+  -webkit-transition: all .2s ease;
+  transition: all .2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 25px;
+        }
+
+        .input-fields {
+  margin-top: 55px;
+}
+
+        .input-line:focus {
+  outline: none;
+  border-color: #fff;
+  -webkit-transition: all .2s ease;
+  transition: all .2s ease;
+        }
+
+        
+
+        .addBtn {
+            margin-left: 20px;
+            cursor: pointer;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 25px;
+  color: rgba(255, 255, 255, 0.65);
+  -webkit-align-self: flex-end;
+  -ms-flex-item-align: end;
+  align-self: flex-end;
+  font-size: 19px;
+  font-size: 1.2rem;
+  font-family: roboto;
+  font-weight: 300;
+  line-height: 2.5em;
+  margin-top: auto;
+  margin-bottom: 25px;
+  -webkit-transition: all .2s ease;
+  transition: all .2s ease;
+            
+        }
+
+        .addBtn:hover {
+            background-color: #bbb;
+            
+        }
+        
+    </style>
+    
+<body>
+
+    <div class= 'container'>
+        <div class='content'>
+            <div id= 'myDiv' class= 'header'>
+                <h2> {{request.session.user | title}}'s Silver Lining Repository </h2>
+                <form action='/post' method='POST'>
+                    {% csrf_token %}
+                        <div class='input-fields'>
+                            <input type="text" name='title' id='myInput'  placeholder='Silver Lining...'>
+                            <button type='submit' class='addBtn'>Add</button>
+                            <a class='addBtn' href="/logout">Logout</a>
+                        </form>   
+                              
+                    </div>
+                </div>
+                
+            </div>
+        </div>    
+          
+    </div>
+   
+
+
+
+    <ul id='myUL'>
+        {% for title in wall_thoughts reversed %}
+        <li>{{title.title | title}} <span class='close'><a style='text-decoration: none; color:black' href="/delete/{{title.id}}">Delete</a></span></li>
+        {% endfor %}
+    </ul>
+    
+</body>
+
+</html>
